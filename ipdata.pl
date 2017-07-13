@@ -54,4 +54,5 @@ $targets = $ARGV[0];
   }
 	
 print "writing targets.csv\n";
+print "writing Errors.log\n";
 print "Done!\n"; 
