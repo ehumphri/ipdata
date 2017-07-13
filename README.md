@@ -21,7 +21,5 @@ Example targets.csv:
 ![Alt text](/images/target-output.png?raw=true "Example output")
 
 Tested on:
-
-OSX 10.10.5
-
-MacOS 10.12.5
+- OSX 10.10.5
+- MacOS 10.12.5
