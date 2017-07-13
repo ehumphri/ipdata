@@ -1,7 +1,7 @@
 ipdata
 
 ```
-$ ./ipdata.pl networks.txt 
+$ ./ipdata.pl example-networks.txt 
 Checking 192.168.2.1
 Checking 192.168.7.23
 Checking 192.168.7.24
