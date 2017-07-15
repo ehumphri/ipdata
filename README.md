@@ -36,6 +36,8 @@ Limitations:
 
 Subnets in CIDR notations that do not designate the correct network address will throw an error.
 
+I didn't take care to remove unsuable IP's like broadcast addresses or ip 0
+
 Tested on:
 ----------
 - OSX 10.10.5

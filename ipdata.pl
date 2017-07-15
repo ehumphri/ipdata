@@ -9,12 +9,14 @@ $targets = $ARGV[0];
   exit;
  } else {
   open(TARGETFILE, "<", $targets) or die "Cannot open < $targets $!\n";
-  open(HOSTNAMES, ">hostnames.txt");
-  open(HOSTS, ">hosts.txt");
-  open(ERRORFILE, ">Errors.log");
-  open(CLEANFILE, ">targets.csv");
+  open(HOSTNAMES, ">>hostnames.txt");
+  open(HOSTS, ">>hosts.txt");
+  open(ERRORFILE, ">>Errors.log");
+  open(CLEANFILE, ">>targets.csv");
  }
 
+ # print targets file name in the CSV
+ print CLEANFILE "$targets\n";
 
  # print the header of the CSV
  print CLEANFILE "Submitted,ipver,numhosts,netmask,first,last,type\n";
@@ -29,8 +31,28 @@ $targets = $ARGV[0];
    
    if ($ip) {
 
-	# Check to see if this is a valid IP or not
-	print HOSTS "$host\n";
+
+        if ($host =~ /.*-.*/) {
+		print "range detected\n";
+ 		do {
+			# expand the range and print to hosts
+      			print HOSTS $ip->ip(), "\n";
+
+    			my $first = $ip->ip();
+			my $last = ""; 
+			my $type = $ip->iptype();
+			my $version = $ip->version();
+			my $numhosts = 1;
+			my $netmask = "255.255.255.255";
+
+			print CLEANFILE $ip->ip().",".$version.",".$numhosts.",".$netmask.",".$first.",".$last.",".$type."\n";
+
+  		} while (++$ip);
+		next;
+	} else {
+		# Check to see if this is a valid IP or not
+		print HOSTS "$host\n";
+	}
 
    } else {
 
