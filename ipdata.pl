@@ -9,6 +9,7 @@ $targets = $ARGV[0];
   exit;
  } else {
   open(TARGETFILE, "<", $targets) or die "Cannot open < $targets $!\n";
+  open(HOSTNAMES, ">hostnames.txt");
   open(ERRORFILE, ">Errors.log");
   open(CLEANFILE, ">targets.csv");
  }
@@ -22,15 +23,29 @@ $targets = $ARGV[0];
    chomp($host);
 
    print "Checking ".$host."\n";
-  
+   
    my $ip = new Net::IP ($host);
+   
+   if ($ip) {
 
-    if ($ip) {
+   } else {
+
+    if ($host =~ /[g-z][G-Z]*/) {
+   	# check if host is a domain
+	print "Likely hostname\n";
+        print HOSTNAMES "$host\n";
+	next;
+    } elsif ($host =~ /[a-f][A-F]/) {
+   	# check if host is ipv6
+	print "potentially ipv6";
+	next;
     } else {
-     print ERRORFILE $host."\n";
-     print CLEANFILE $host.",,,,,,ERROR\n";
-     next;
+     	print ERRORFILE $host."\n";
+     	print CLEANFILE $host.",,,,,,ERROR\n";
+     	next;
     }
+
+   }
 
 	#  print ("IP  : ".$ip->ip()."\n");
 	#  print ("Sho : ".$ip->short()."\n");
@@ -54,5 +69,6 @@ $targets = $ARGV[0];
   }
 	
 print "writing targets.csv\n";
+print "writing hostnames.txt\n";
 print "writing Errors.log\n";
 print "Done!\n"; 
