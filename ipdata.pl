@@ -10,6 +10,7 @@ $targets = $ARGV[0];
  } else {
   open(TARGETFILE, "<", $targets) or die "Cannot open < $targets $!\n";
   open(HOSTNAMES, ">hostnames.txt");
+  open(HOSTS, ">hosts.txt");
   open(ERRORFILE, ">Errors.log");
   open(CLEANFILE, ">targets.csv");
  }
@@ -28,18 +29,19 @@ $targets = $ARGV[0];
    
    if ($ip) {
 
+	# Check to see if this is a valid IP or not
+	print HOSTS "$host\n";
+
    } else {
 
     if ($host =~ /[g-z][G-Z]*/) {
-   	# check if host is a domain
+   	# check if host is a hostname 
 	print "Likely hostname\n";
+     	print CLEANFILE $host.",,,,,,HOSTNAME\n";
         print HOSTNAMES "$host\n";
 	next;
-    } elsif ($host =~ /[a-f][A-F]/) {
-   	# check if host is ipv6
-	print "potentially ipv6";
-	next;
     } else {
+	# Something aint right, print to errors file
      	print ERRORFILE $host."\n";
      	print CLEANFILE $host.",,,,,,ERROR\n";
      	next;
@@ -71,4 +73,12 @@ $targets = $ARGV[0];
 print "writing targets.csv\n";
 print "writing hostnames.txt\n";
 print "writing Errors.log\n";
+
+ close(TARGETFILE);
+ close(HOSTNAMES);
+ close(HOSTS);
+ close(ERRORFILE);
+ close(CLEANFILE);
+
 print "Done!\n"; 
+
