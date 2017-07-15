@@ -1,8 +1,8 @@
-ipdata
+#ipdata
 
 Just a quick tool to parse through a list of targets for a pentest and perform some basic sanity checks and generate various lists such as hostnames, ips, etc.
 
-Example:
+##Example:
 
 ```
 shell$ ./ipdata.pl example-networks.txt 
@@ -24,14 +24,14 @@ Done!
 shell$
 ```
 
-Example targets.csv:
+##Example targets.csv:
 
 ![Alt text](/images/target-output.png?raw=true "Example output")
 
-Limitations:
+##Limitations:
 
 Subnets in CIDR notations that do not designate the correct network address will throw an error.
 
-Tested on:
+##Tested on:
 - OSX 10.10.5
 - MacOS 10.12.5
